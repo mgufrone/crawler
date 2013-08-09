@@ -34,6 +34,7 @@ return array(
 	'components'=>array(
 		'viewRenderer' => array(
 	        'class' => 'ext.ETwigViewRenderer',
+	        'twigPathAlias'=>'webroot.vendor.twig.twig.lib.Twig',
 	 
 	        // All parameters below are optional, change them to your needs
 	        'fileExtension' => '.tpl',
@@ -54,6 +55,7 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
+			'showScriptName'=>false,
 		),
 		
 		/*'db'=>array(
