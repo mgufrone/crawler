@@ -1,4 +1,6 @@
 <?php
+
+use Symfony\Component\DomCrawler\Crawler;
 class TaskController extends Controller
 {
 	public function actionIndex()
@@ -67,9 +69,13 @@ class TaskController extends Controller
 	}
 	public function actionTest()
 	{
-		$content = 'hello@gmail.com monsterkill hello@mebiso.com';
+		$content = Yii::app()->curl->get('http://indonetwork.co.id/starindo_smt/profile/starindo-mandiri-teknik.htm');
 		// print $content;
-		$formula = '/(?<email>([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+)/';
+		$crawler = new Crawler;
+		$crawler->addContent($content);
+		$filtered = $crawler->filter('.tbc');
+		print_r($filtered->children());
+		/*$formula = '/(?<email>([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+)/';
 		print $formula;
 		
 			if(preg_match_all($formula, $content, $matched))
@@ -77,6 +83,6 @@ class TaskController extends Controller
 			 print 'passed <br/>';
 			 print_r($matched);
 			}
-		
+		*/
 	}
 }
