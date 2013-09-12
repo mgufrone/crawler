@@ -1,3 +1,10 @@
 [submodule "protected/extensions/curl"]
 	path = protected/extensions/curl
 	url = https://github.com/hackerone/curl.git
+[submodule "vendor/symfony/dom-crawler"]
+	path = vendor/symfony/dom-crawler
+	url = https://github.com/symfony/DomCrawler.git
+
+[submodule "vendor/yiisoft/yii"]
+	path = vendor/yiisoft/yii
+	url = https://github.com/yiisoft/yii.git
