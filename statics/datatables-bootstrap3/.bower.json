@@ -1,0 +1,14 @@
+{
+  "name": "datatables-bootstrap3",
+  "homepage": "https://github.com/Jowin/Datatables-Bootstrap3",
+  "_release": "master",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bc4d6a667bd6d5100a403711c7be8edb349a5130"
+  },
+  "_source": "git://github.com/Jowin/Datatables-Bootstrap3.git",
+  "_target": "*",
+  "_originalSource": "datatables-bootstrap3",
+  "_direct": true
+}
