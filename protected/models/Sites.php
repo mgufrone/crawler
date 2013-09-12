@@ -13,6 +13,8 @@ class Sites extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+	const ACTIVE = 1;
+	const INACTIVE = 0;
 	public function tableName()
 	{
 		return 'sites';
@@ -29,6 +31,7 @@ class Sites extends CActiveRecord
 			array('site_name', 'length', 'max'=>100),
 			array('site_url', 'unique','on'=>'create'),
 			array('site_url', 'safe','on'=>'update'),
+			array('crawl_status','safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('site_id, site_name, site_url', 'safe', 'on'=>'search'),
@@ -43,7 +46,7 @@ class Sites extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			
+
 		);
 	}
 
@@ -54,6 +57,7 @@ class Sites extends CActiveRecord
 			$model = new DataPattern;
 			$model->setAttributes(array(
 				'pattern_name'=>'phone',
+				'pattern_type'=>'regex',
 				'pattern_value'=>'/(?<phone>\+?\-?\d{10,20})/',
 				'site_id'=>$this->site_id,
 			));
@@ -62,6 +66,7 @@ class Sites extends CActiveRecord
 			$model = new DataPattern;
 			$model->setAttributes(array(
 				'pattern_name'=>'email',
+				'pattern_type'=>'regex',
 				'pattern_value'=>'/(?<email>([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+)/',
 				'site_id'=>$this->site_id,
 			));
@@ -80,7 +85,19 @@ class Sites extends CActiveRecord
 			'site_url' => 'Site Url',
 		);
 	}
-
+	public function getStatus()
+	{
+		return array(
+			self::INACTIVE => 'inactive',
+			self::ACTIVE => 'active',
+		);
+	}
+	public function beforeDelete()
+	{
+		$data = Urls::model()->findAllByAttributes(array('site_id'=>$this->site_id));
+		foreach($data as $row)$row->delete();
+		return true;
+	}
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

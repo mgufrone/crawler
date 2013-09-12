@@ -17,6 +17,7 @@ class CrawlController extends Controller
 			'(SELECT COUNT(*) FROm urls WHERE urls.site_id=sites.site_id) as totalCount ',
 			'(SELECT COUNT(*) FROM urls WHERE urls.site_id=sites.site_id AND url_crawled=\'1\') as totalCrawled'))
 		->from('sites')
+		->where('crawl_status=:active',array(':active'=>1))
 		->queryAll();
 		$countResources = count($resources);
 		foreach($resources as $site)
@@ -70,7 +71,7 @@ class CrawlController extends Controller
 						$urlSource = $url['url_path'];
 
 						$patterns = $command->reset()
-						->select(array('pattern_name','pattern_value','pattern_id'))
+						->select(array('pattern_name','pattern_value','pattern_id','pattern_type'))
 						->from('data_pattern')
 						->where('site_id=:site_id',array(':site_id'=>$url['site_id']))
 						->queryAll();
@@ -78,10 +79,25 @@ class CrawlController extends Controller
 						$content = Yii::app()->curl->get($urlSource);
 						foreach($patterns as $pattern)
 						{
-							preg_match_all($pattern['pattern_value'], $content, $matches);
+							if($pattern['pattern_type'] == 'regex')
+								preg_match_all($pattern['pattern_value'], $content, $matches);
+							elseif($pattern['pattern_type']=='selector')
+							{
+								$crawler = new Crawler;
+								$crawler->addContent($content);
+								$filtered = $crawler->filter($pattern['pattern_value']);
+								$matches = array();
+								$matches[$pattern['pattern_name']] = array();
+								foreach($filtered as $filter)
+								{
+									$matches[$pattern['pattern_name']] = $filter->nodeValue;
+								}
+							}
+
 							if(!empty($matches[$pattern['pattern_name']]))
 							foreach($matches[$pattern['pattern_name']] as $match)
 							{
+								$match = strip_tags($match);
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('data')
 								->where('data_value=:value and pattern_id=:pattern_id',array(':value'=>$match,':pattern_id'=>$pattern['pattern_id']))

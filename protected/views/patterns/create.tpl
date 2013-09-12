@@ -4,14 +4,14 @@
 
 <div class="form-widget">
 	<div class="form-group">
-	{{ form.textField(model, 'site_name',{placeholder:'Site Name',class:'form-control'}) }}
+	{{ form.textField(model, 'pattern_name',{placeholder:'Site Name',class:'form-control'}) }}
 	</div>
 	<div class="form-group">
-	{{ form.textField(model, 'site_url',{placeholder:'Site URL',class:'form-control'}) }}
+	{{ form.textField(model, 'pattern_value',{placeholder:'Site URL',class:'form-control'}) }}
 	</div>
 
 	<div class="form-group">
-		{{ form.dropDownList(model, 'crawl_status', model.getStatus(),{placeholder:'Site URL',class:'form-control'}) }}
+		{{ form.dropDownList(model, 'pattern_type', model.getTypes(),{placeholder:'Site URL',class:'form-control'}) }}
 	</div>
 
 	<div class="form-group">

@@ -5,6 +5,7 @@ class m130912_120345_alter_table extends CDbMigration
 	public function up()
 	{
 		$this->addColumn('data_pattern', 'pattern_type', 'varchar(100)');
+		$this->addColumn('sites', 'crawl_status','int(10)');
 	}
 
 	public function down()

@@ -14,6 +14,8 @@ class DataPattern extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+	const TYPE_REGEX='regex';
+	const TYPE_SELECTOR='selector';
 	public function tableName()
 	{
 		return 'data_pattern';
@@ -29,7 +31,7 @@ class DataPattern extends CActiveRecord
 		return array(
 			array('site_id', 'numerical', 'integerOnly'=>true),
 			array('pattern_name', 'length', 'max'=>50),
-			array('pattern_value', 'safe'),
+			array('pattern_value, pattern_type', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('pattern_id, site_id, pattern_name, pattern_value', 'safe', 'on'=>'search'),
@@ -59,7 +61,13 @@ class DataPattern extends CActiveRecord
 			'pattern_value' => 'Pattern Value',
 		);
 	}
-
+	public function getTypes()
+	{
+		return array(
+			self::TYPE_REGEX=>'regex',
+			self::TYPE_SELECTOR=>'selector',
+		);
+	}
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *

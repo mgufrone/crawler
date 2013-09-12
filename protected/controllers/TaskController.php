@@ -14,6 +14,7 @@ class TaskController extends Controller
 					'site_name',
 					'site_url',
 					'site_id',
+					'crawl_status',
 					'(SELECT COUNT(*) FROm urls WHERE urls.site_id=sites.site_id) as totalCount ',
 					'(SELECT COUNT(*) FROM urls WHERE urls.site_id=sites.site_id AND url_crawled=\'1\') as totalCrawled'))
 				->from('sites')
@@ -24,12 +25,19 @@ class TaskController extends Controller
 			$response = array();
 			foreach($resources as $resource)
 			{
+				$id = $resource['site_id'];
+				$active = $resource['crawl_status'];
+				$templates = "<div class='btn-group'>
+					<a class='btn btn-primary' href='".$this->createAbsoluteUrl('change',array('id'=>$id, 'status'=>$active==0?1:0))."'><i class='glyphicon glyphicon-cloud-".($active==0?'upload':'download')."'></i></a>
+					<a class='btn btn-info' href='".$this->createAbsoluteUrl('patterns/index',array('id'=>$id))."'><i class='glyphicon glyphicon-pencil'></i></a>
+					<a class='btn btn-danger' href='".$this->createAbsoluteUrl('delete',array('id'=>$id, 'status'=>$active==0?1:0))."'><i class='glyphicon glyphicon-trash'></i></a>
+				</div>";
 				$response[] = array(
 					$resource['site_name'],
 					$resource['site_url'],
 					$resource['totalCount'],
 					$resource['totalCrawled'],
-					'',
+					$templates,
 				);
 			}
 			return print json_encode(array(
@@ -58,7 +66,7 @@ class TaskController extends Controller
 				$model->setAttributes($_POST['Sites']);
 				if($model->validate() && $model->save())
 				{
-					return $this->redirect('index');
+					return $this->redirect($this->createAbsoluteUrl('index'));
 				}
 			}
 		}
@@ -67,22 +75,40 @@ class TaskController extends Controller
 		);
 		$this->render('create',$data);
 	}
+	public function actionChange($id, $status=0)
+	{
+		$model = Sites::model()->findByPk($id);
+		$model->crawl_status = $status;
+		$model->save();	
+		return $this->redirect($this->createAbsoluteUrl('index'));
+	}
+	public function actionDelete($id)
+	{
+		$delete = Sites::model()->findByPk($id)->delete();
+		return $this->redirect($this->createAbsoluteUrl('index'));
+	}
 	public function actionTest()
 	{
-		$content = Yii::app()->curl->get('http://indonetwork.co.id/starindo_smt/profile/starindo-mandiri-teknik.htm');
+		$content = Yii::app()->curl->get('http://anandasuksesmandiri.indonetwork.co.id/profile/cv-ananda-sukses-mandiri.htm');
+		// $content = str_replace(array("\n","\r"),'',$content);
+		// $newString = preg_replace( "/<([^> ]+)/", "strtolower('\\0')", $content);
 		// print $content;
 		$crawler = new Crawler;
 		$crawler->addContent($content);
-		$filtered = $crawler->filter('.tbc');
-		print_r($filtered->children());
-		/*$formula = '/(?<email>([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+)/';
+		$filtered = $crawler->filter('.cpname,.headt');
+		foreach($filtered as $filter)
+		{
+			print $filter->textContent;
+		}
+		// print $content;
+		/*$formula = '/(\<span\>\<strong\>(.*(Telpon).*)\<\/strong\>|\<th\>(.*(Telpon).*)\<\/th\>\<td\>)(?<phone>([\s\-\d]+))\</i';
 		print $formula;
 		
 			if(preg_match_all($formula, $content, $matched))
 			{
 			 print 'passed <br/>';
 			 print_r($matched);
-			}
-		*/
+			}*/
+		
 	}
 }
