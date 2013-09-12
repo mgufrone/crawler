@@ -64,7 +64,7 @@ class CrawlController extends Controller
 					->from('urls')
 					->leftJoin('sites','sites.site_id=urls.site_id')
 					->where('urls.site_id=:site_id and url_crawled=:not_crawled',array(':site_id'=>$site['site_id'],':not_crawled'=>0))
-					->limit(3)
+					->limit(10)
 					->queryAll();
 					foreach($urls as $url)
 					{
