@@ -99,7 +99,8 @@ class CrawlController extends Controller
 									$matches[$pattern['pattern_name']] = $filter->nodeValue;
 								}
 							}
-
+							print_r($urls);
+							print_r($matches);
 							if(!empty($matches[$pattern['pattern_name']]))
 							foreach($matches[$pattern['pattern_name']] as $match)
 							{
