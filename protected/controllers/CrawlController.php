@@ -34,7 +34,6 @@ class CrawlController extends Controller
 				$links = $crawler->filter('a');
 				$collectedLinks = array();
 				$count=0;
-				if(!empty($links))
 				foreach($links as $link)
 				{
 					$path = strtolower($link->getAttribute('href'));
@@ -122,7 +121,6 @@ class CrawlController extends Controller
 						$links = $crawler->filter('a');
 						$collectedLinks = array();
 						$count=0;
-						if(!empty($links))
 						foreach($links as $link)
 						{
 							$path = strtolower($link->getAttribute('href'));
