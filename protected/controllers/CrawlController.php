@@ -75,7 +75,10 @@ class CrawlController extends Controller
 					{
 						$urlSource = $url['url_path'];
 						if(strpos($urlSource, 'mailto')>=0)
+						{
+							$command->reset()->update('urls', array('url_crawled'=>1), 'url_id=:url_id', array(':url_id'=>$url['url_id']));
 							continue;
+						}
 						if(strpos($urlSource, 'http://')<0 && strpos($urlSource, 'https://')<0)
 						{
 							// print $urlSource;
