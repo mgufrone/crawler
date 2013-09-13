@@ -32,7 +32,7 @@ class DataController extends Controller
 					'site_id',
 				))
 				->from('urls')
-				// ->join('data','data.url_id=urls.url_id')
+				->join('data','data.url_id=urls.url_id')
 				->where('site_id=:site_id',array(':site_id'=>$id))
 				->queryAll();
 			$countResources = count($resources);
