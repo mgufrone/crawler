@@ -65,7 +65,7 @@ class DataController extends Controller
 						$value[] = $row['data_value'];
 					}
 					// print_r($query);
-					$data[] = implode(',', $value);
+					$data[] = implode(',<br/>', $value);
 				}
 				$response[] = $data;
 			}
