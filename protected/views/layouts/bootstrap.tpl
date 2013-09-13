@@ -19,13 +19,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex5-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Task</a>
+            <li class="active"><a href="{{this.path.task.index}}" class="dropdown-toggle" data-toggle="dropdown">Task</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{this.path.task.index}}">Show All Task</a></li>
                 <li><a href="{{this.path.task.create}}">Create Task</a></li>
               </ul>
             </li>
-            <li><a href="#">Status</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>

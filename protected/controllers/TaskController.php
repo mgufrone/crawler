@@ -30,6 +30,7 @@ class TaskController extends Controller
 				$templates = "<div class='btn-group'>
 					<a class='btn btn-primary' href='".$this->createAbsoluteUrl('change',array('id'=>$id, 'status'=>$active==0?1:0))."'><i class='glyphicon glyphicon-cloud-".($active==0?'upload':'download')."'></i></a>
 					<a class='btn btn-info' href='".$this->createAbsoluteUrl('patterns/index',array('id'=>$id))."'><i class='glyphicon glyphicon-pencil'></i></a>
+					<a class='btn btn-success' href='".$this->createAbsoluteUrl('data/index',array('id'=>$id))."'><i class='glyphicon glyphicon-dashboard'></i></a>
 					<a class='btn btn-danger' href='".$this->createAbsoluteUrl('delete',array('id'=>$id, 'status'=>$active==0?1:0))."'><i class='glyphicon glyphicon-trash'></i></a>
 				</div>";
 				$response[] = array(
@@ -96,7 +97,7 @@ eE2='perkani.com'
 eE=(eE1+ '@' + eE2)
  //-->
 </script>";
-		$formula = "/eE1\=\'(?<first>.+)\'|eE2\=\'(?<second>.+)\'/i";
+		$formula = "/eE1\=(.+)/i";
 		preg_match_all($formula, $content, $matches);
 		print_r($matches);
 	}

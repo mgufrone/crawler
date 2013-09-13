@@ -102,4 +102,10 @@ class PatternsController extends Controller
 		);
 		$this->render('create',$data);
 	}
+	public function actionDelete()
+	{
+
+		$model = DataPattern::model()->findByPk($id)->delete();
+		return $this->redirect($this->createAbsoluteUrl('index',array('id'=>$model->site_id)));
+	}
 }
