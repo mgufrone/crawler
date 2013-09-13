@@ -39,7 +39,7 @@ class CrawlController extends Controller
 					$path = preg_replace('/\/$/','', $path);
 					if(preg_match('/^\//',$path))
 						$path = 'http://'.$site['site_url'].$path;
-					if(strpos($path, $site['site_url'])>0 && strpos($path, 'http://'))
+					if(strpos($path, $site['site_url'])>0 && strpos($path, 'http://')>=0)
 					{
 						$countFirst = $command->reset()->select('COUNT(*) as count')
 						->from('urls')
@@ -136,7 +136,7 @@ class CrawlController extends Controller
 							$path = preg_replace('/\/$/','', $path);
 							if(preg_match('/^\//',$path))
 								$path = 'http://'.$url['site_url'].$path;
-							if(strpos($path, $url['site_url'])>0 && strpos($path, 'http://'))
+							if(strpos($path, $url['site_url'])>0 && strpos($path, 'http://')>=0)
 							{
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('urls')
