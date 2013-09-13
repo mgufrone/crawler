@@ -89,13 +89,14 @@ class TaskController extends Controller
 	}
 	public function actionTest()
 	{
-		$content = Yii::app()->curl->get('http://anandasuksesmandiri.indonetwork.co.id/profile/cv-ananda-sukses-mandiri.htm');
+		$content = Yii::app()->curl->get('http://www.rakuten.co.id/shop/rumahfashion/info/');
 		// $content = str_replace(array("\n","\r"),'',$content);
 		// $newString = preg_replace( "/<([^> ]+)/", "strtolower('\\0')", $content);
 		// print $content;
+		print $content;
 		$crawler = new Crawler;
 		$crawler->addContent($content);
-		$filtered = $crawler->filter('.cpname,.headt');
+		$filtered = $crawler->filter('#ShopOverview table tbody tr:nth-of-type(5) td');
 		foreach($filtered as $filter)
 		{
 			print $filter->textContent;

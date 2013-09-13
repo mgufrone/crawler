@@ -1,7 +1,8 @@
 <?php
 
+// Yii::import('webroot.vendor.symfony.css-selector.Symfony.Component.CssSelector.CssSelector');
+// use Symfony\Component\CssSelector\CssSelector;
 use Symfony\Component\DomCrawler\Crawler;
-
 class CrawlController extends Controller
 {
 	public function actionIndex()
@@ -20,7 +21,8 @@ class CrawlController extends Controller
 		->where('crawl_status=:active',array(':active'=>1))
 		->queryAll();
 		$countResources = count($resources);
-		$maxUrlPerSite = ceil(20/$countResources);
+		$maxUrlPerSite = ceil(5/$countResources);
+		print_r($resources);
 		foreach($resources as $site)
 		{
 			if($site['totalCount'] == 0)
@@ -32,6 +34,7 @@ class CrawlController extends Controller
 				$links = $crawler->filter('a');
 				$collectedLinks = array();
 				$count=0;
+				if(!empty($links))
 				foreach($links as $link)
 				{
 					$path = strtolower($link->getAttribute('href'));
@@ -67,6 +70,7 @@ class CrawlController extends Controller
 					->where('urls.site_id=:site_id and url_crawled=:not_crawled',array(':site_id'=>$site['site_id'],':not_crawled'=>0))
 					->limit($maxUrlPerSite)
 					->queryAll();
+					if(!empty($urls))
 					foreach($urls as $url)
 					{
 						$urlSource = $url['url_path'];
@@ -78,6 +82,7 @@ class CrawlController extends Controller
 						->queryAll();
 						$registeredPatterns = array();
 						$content = Yii::app()->curl->get($urlSource);
+						if(!empty($patterns))
 						foreach($patterns as $pattern)
 						{
 							if($pattern['pattern_type'] == 'regex')
@@ -118,6 +123,7 @@ class CrawlController extends Controller
 						$links = $crawler->filter('a');
 						$collectedLinks = array();
 						$count=0;
+						if(!empty($links))
 						foreach($links as $link)
 						{
 							$path = strtolower($link->getAttribute('href'));
