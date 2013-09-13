@@ -38,7 +38,7 @@ class CrawlController extends Controller
 					$path = strtolower($link->getAttribute('href'));
 					$path = preg_replace('/\/$/','', $path);
 					if(preg_match('/^\//',$path))
-						$path = 'http://'.$url['site_url'].$path;
+						$path = 'http://'.$site['site_url'].$path;
 					if(strpos($path, $site['site_url'])>0 && strpos($path, 'http://'))
 					{
 						$countFirst = $command->reset()->select('COUNT(*) as count')
