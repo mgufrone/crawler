@@ -109,7 +109,7 @@ class TaskController extends Controller
 		}*/
 
 
-		print gettype(strpos('http://mgufron.com','mailto:'));
+		print strpos('http://mgufron.com','mailto:')!==false;
 		// print_r($matches);
 		// print $content;
 		/*$formula = '/(\<span\>\<strong\>(.*(Telpon).*)\<\/strong\>|\<th\>(.*(Telpon).*)\<\/th\>\<td\>)(?<phone>([\s\-\d]+))\</i';
