@@ -74,9 +74,9 @@ class CrawlController extends Controller
 					foreach($urls as $url)
 					{
 						$urlSource = $url['url_path'];
-						print $urlSource;
 						if(strpos($urlSource, 'mailto')>=0)
 						{
+						print $urlSource;
 							$command->reset()->update('urls', array('url_crawled'=>1), 'url_id=:url_id', array(':url_id'=>$url['url_id']));
 							continue;
 						}
