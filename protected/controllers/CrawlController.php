@@ -74,6 +74,8 @@ class CrawlController extends Controller
 					foreach($urls as $url)
 					{
 						$urlSource = $url['url_path'];
+						if(strpos($urlSource, 'mailto')>=0)
+							continue;
 						if(strpos($urlSource, 'http://')<0 && strpos($urlSource, 'https://')<0)
 						{
 							// print $urlSource;
