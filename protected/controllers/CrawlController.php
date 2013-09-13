@@ -122,7 +122,7 @@ class CrawlController extends Controller
 								}
 							}
 						}
-						print $content;
+						// print $content;
 						$crawler->addContent($content);
 						$links = $crawler->filter('a');
 						$collectedLinks = array();
