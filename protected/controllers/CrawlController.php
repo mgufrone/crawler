@@ -21,7 +21,7 @@ class CrawlController extends Controller
 		->where('crawl_status=:active',array(':active'=>1))
 		->queryAll();
 		$countResources = count($resources);
-		$maxUrlPerSite = ceil(5/$countResources);
+		$maxUrlPerSite = ceil(20/$countResources);
 		print_r($resources);
 		foreach($resources as $site)
 		{
