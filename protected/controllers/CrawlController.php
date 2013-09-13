@@ -22,7 +22,6 @@ class CrawlController extends Controller
 		->queryAll();
 		$countResources = count($resources);
 		$maxUrlPerSite = ceil(20/$countResources);
-		print_r($resources);
 		foreach($resources as $site)
 		{
 			if($site['totalCount'] == 0)
@@ -73,8 +72,9 @@ class CrawlController extends Controller
 					foreach($urls as $url)
 					{
 						$urlSource = $url['url_path'];
-						if(strpos($urlSource, 'http://')<1 && strpos($urlSource, 'https://')<1)
+						if(strpos($urlSource, 'http://')<0 && strpos($urlSource, 'https://')<0)
 						{
+							// print $urlSource;
 							$command->reset()->update('urls', array('url_crawled'=>1), 'url_id=:url_id', array(':url_id'=>$url['url_id']));
 							continue;
 						}
@@ -122,6 +122,7 @@ class CrawlController extends Controller
 								}
 							}
 						}
+						print $content;
 						$crawler->addContent($content);
 						$links = $crawler->filter('a');
 						$collectedLinks = array();
@@ -131,6 +132,8 @@ class CrawlController extends Controller
 						{
 							$path = strtolower($link->getAttribute('href'));
 							$path = preg_replace('/\/$/','', $path);
+							if(preg_match('/^\//',$path))
+								$path = 'http://'.$url['site_url'].$path;
 							if(strpos($path, $url['site_url'])>0 && strpos($path, 'http://'))
 							{
 								$countFirst = $command->reset()->select('COUNT(*) as count')

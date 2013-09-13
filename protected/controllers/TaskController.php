@@ -89,28 +89,25 @@ class TaskController extends Controller
 	}
 	public function actionTest()
 	{
-		$content = Yii::app()->curl->get('http://mobilecrusher.indonetwork.co.id/3445251/harga-mesin-pemecah-batu.htm');
+		$content = Yii::app()->curl->get('http://www.rakuten.co.id/shop/rosaphora/product/200000002744787/');
 		// $content = str_replace(array("\n","\r"),'',$content);
 		// $newString = preg_replace( "/<([^> ]+)/", "strtolower('\\0')", $content);
 		// print $content;
 		$pattern = array(
 			'pattern_name' => 'company_name',
-			'pattern_value'=> '.cpname,.headt',
-			'pattern_type' => 'selector',
+			'pattern_value'=> '#ShopOverview table tbody tr:nth-of-type(1) td',
 		);
 
 		$crawler = new Crawler;
 		$crawler->addContent($content);
-		$filtered = $crawler->filter($pattern['pattern_value']);
+		$filtered = $crawler->filter('a');
 		$matches = array();
 		$matches[$pattern['pattern_name']] = array();
 		foreach($filtered as $filter)
 		{
-			$matches[$pattern['pattern_name']] = $filter->nodeValue;
+			print $filter->getAttribute('href')."<br/>";
 		}
-		// foreach($matches[$pattern['pattern_name']] as $match)
-			// print $match;
-		// print $content;
+		// print_r($matches);
 		// print $content;
 		/*$formula = '/(\<span\>\<strong\>(.*(Telpon).*)\<\/strong\>|\<th\>(.*(Telpon).*)\<\/th\>\<td\>)(?<phone>([\s\-\d]+))\</i';
 		print $formula;
