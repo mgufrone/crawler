@@ -126,6 +126,7 @@ class CrawlController extends Controller
 						$links = $crawler->filter('a');
 						$collectedLinks = array();
 						$count=0;
+						$url['site_url'] = str_replace('www.','',$url['site_url']);
 						foreach($links as $link)
 						{
 							$path = strtolower($link->getAttribute('href'));
