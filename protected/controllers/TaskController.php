@@ -89,37 +89,15 @@ class TaskController extends Controller
 	}
 	public function actionTest()
 	{
-		/*$content = Yii::app()->curl->get('http://www.rakuten.co.id/shop/rosaphora/product/200000002744787/');
-		// $content = str_replace(array("\n","\r"),'',$content);
-		// $newString = preg_replace( "/<([^> ]+)/", "strtolower('\\0')", $content);
-		// print $content;
-		$pattern = array(
-			'pattern_name' => 'company_name',
-			'pattern_value'=> '#ShopOverview table tbody tr:nth-of-type(1) td',
-		);
-
-		$crawler = new Crawler;
-		$crawler->addContent($content);
-		$filtered = $crawler->filter('a');
-		$matches = array();
-		$matches[$pattern['pattern_name']] = array();
-		foreach($filtered as $filter)
-		{
-			print $filter->getAttribute('href')."<br/>";
-		}*/
-
-
-		print strpos('http://mgufron.com','mailto:')!==false;
-		// print_r($matches);
-		// print $content;
-		/*$formula = '/(\<span\>\<strong\>(.*(Telpon).*)\<\/strong\>|\<th\>(.*(Telpon).*)\<\/th\>\<td\>)(?<phone>([\s\-\d]+))\</i';
-		print $formula;
-		
-			if(preg_match_all($formula, $content, $matched))
-			{
-			 print 'passed <br/>';
-			 print_r($matched);
-			}*/
-		
+		$content = "<script type='text/javascript'>
+<!-- 
+eE1='ptpni'
+eE2='perkani.com'
+eE=(eE1+ '@' + eE2)
+ //-->
+</script>";
+		$formula = "/eE1\=\'(?<first>.+)\'|eE2\=\'(?<second>.+)\'/i";
+		preg_match_all($formula, $content, $matches);
+		print_r($matches);
 	}
 }
