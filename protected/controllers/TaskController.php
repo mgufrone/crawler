@@ -89,7 +89,7 @@ class TaskController extends Controller
 	}
 	public function actionTest()
 	{
-		$content = Yii::app()->curl->get('http://www.rakuten.co.id/shop/rosaphora/product/200000002744787/');
+		/*$content = Yii::app()->curl->get('http://www.rakuten.co.id/shop/rosaphora/product/200000002744787/');
 		// $content = str_replace(array("\n","\r"),'',$content);
 		// $newString = preg_replace( "/<([^> ]+)/", "strtolower('\\0')", $content);
 		// print $content;
@@ -106,7 +106,10 @@ class TaskController extends Controller
 		foreach($filtered as $filter)
 		{
 			print $filter->getAttribute('href')."<br/>";
-		}
+		}*/
+
+
+		print gettype(strpos('http://mgufron.com','mailto:'));
 		// print_r($matches);
 		// print $content;
 		/*$formula = '/(\<span\>\<strong\>(.*(Telpon).*)\<\/strong\>|\<th\>(.*(Telpon).*)\<\/th\>\<td\>)(?<phone>([\s\-\d]+))\</i';
