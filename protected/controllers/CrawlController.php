@@ -38,7 +38,7 @@ class CrawlController extends Controller
 				{
 					$path = strtolower($link->getAttribute('href'));
 					$path = preg_replace('/\/$/','', $path);
-					if(strpos($path, $site['site_url'])>0)
+					if(strpos($path, $site['site_url'])>0 && strpos($path, 'http://'))
 					{
 						$countFirst = $command->reset()->select('COUNT(*) as count')
 						->from('urls')
@@ -73,6 +73,11 @@ class CrawlController extends Controller
 					foreach($urls as $url)
 					{
 						$urlSource = $url['url_path'];
+						if(strpos($urlSource, 'http://')<1 && strpos($urlSource, 'https://')<1)
+						{
+							$command->reset()->update('urls', array('url_crawled'=>1), 'url_id=:url_id', array(':url_id'=>$url['url_id']));
+							continue;
+						}
 
 						$patterns = $command->reset()
 						->select(array('pattern_name','pattern_value','pattern_id','pattern_type'))
@@ -125,7 +130,7 @@ class CrawlController extends Controller
 						{
 							$path = strtolower($link->getAttribute('href'));
 							$path = preg_replace('/\/$/','', $path);
-							if(strpos($path, $url['site_url'])>0)
+							if(strpos($path, $url['site_url'])>0 && strpos($path, 'http://'))
 							{
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('urls')
