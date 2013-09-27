@@ -34,6 +34,7 @@ class DataController extends Controller
 				->from('urls')
 				->join('data','data.url_id=urls.url_id')
 				->where('site_id=:site_id',array(':site_id'=>$id))
+				->group('url_path')
 				->queryAll();
 			$countResources = count($resources);
 			$resources = $command->reset()
