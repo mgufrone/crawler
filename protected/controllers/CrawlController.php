@@ -114,7 +114,7 @@ class CrawlController extends Controller
 							if(!empty($matches) && !empty($matches[$pattern['pattern_name']]))
 							foreach($matches[$pattern['pattern_name']] as $match)
 							{
-								$match = iconv("utf-8", "utf-8//IGNORE", strip_tags($match));
+								$match = iconv("utf-8", "iso-8859-2", strip_tags($match));
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('data')
 								->where('data_value='.Yii::app()->db->quoteValue($match).' and pattern_id=\''.$pattern['pattern_id'].'\'')
