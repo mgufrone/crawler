@@ -117,7 +117,7 @@ class CrawlController extends Controller
 								$match = iconv("utf-8", "utf-8//IGNORE", strip_tags($match));
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('data')
-								->where('data_value=\''.$match.'\' and pattern_id=\''.$pattern['pattern_id'].'\'')
+								->where('data_value=\''.Yii::app()->db->quoteValue($match).'\' and pattern_id=\''.$pattern['pattern_id'].'\'')
 								->queryRow();
 								if($countFirst['count'] <1)
 								{
