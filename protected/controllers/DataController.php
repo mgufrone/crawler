@@ -46,6 +46,7 @@ class DataController extends Controller
 			->from('urls')
 			->join('data','data.url_id=urls.url_id')
 			->where('site_id=:site_id',array(':site_id'=>$id))
+			->group('url_path')
 			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']*$_GET['iDisplayLength']))->queryAll();
 			$response = array();
 			unset($columns[0]);
