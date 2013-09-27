@@ -7,6 +7,7 @@ class CrawlController extends Controller
 {
 	public function actionIndex()
 	{
+		set_time_limit(0);
 		$crawler = new Crawler;
 		$model = new Sites;
 		$command = Yii::app()->db->createCommand();
@@ -43,7 +44,7 @@ class CrawlController extends Controller
 					{
 						$countFirst = $command->reset()->select('COUNT(*) as count')
 						->from('urls')
-						->where('url_path=:path and site_id=:site_id',array(':site_id'=>$site['site_id'],':path'=>$path))
+						->where('url_path=:path',array(':path'=>$path))
 						->queryRow();
 						if($countFirst['count'] <1)
 						{
@@ -113,10 +114,10 @@ class CrawlController extends Controller
 							if(!empty($matches) && !empty($matches[$pattern['pattern_name']]))
 							foreach($matches[$pattern['pattern_name']] as $match)
 							{
-								$match = strip_tags($match);
+								$match = mb_convert_encoding(strip_tags($match),'UTF-8');
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('data')
-								->where('data_value=:value and pattern_id=:pattern_id',array(':value'=>$match,':pattern_id'=>$pattern['pattern_id']))
+								->where('data_value=\''.$match.'\' and pattern_id=\''.$pattern['pattern_id'].'\'')
 								->queryRow();
 								if($countFirst['count'] <1)
 								{
@@ -145,7 +146,7 @@ class CrawlController extends Controller
 							{
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('urls')
-								->where('url_path=:path and site_id=:site_id',array(':site_id'=>$url['site_id'],':path'=>$path))
+								->where('url_path=:path',array(':path'=>$path))
 								->queryRow();
 								if($countFirst['count'] <1)
 								{
