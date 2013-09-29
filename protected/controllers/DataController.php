@@ -54,7 +54,7 @@ class DataController extends Controller
 			->where('site_id=:site_id',array(':site_id'=>$id))
 			->order('counters desc')
 			->group('url_path')
-			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']))
+			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']));
 			if(!empty($search))
 				$command->where("data.data_value LIKE '%{$search}%'");
 			$resources = $command->queryAll();
