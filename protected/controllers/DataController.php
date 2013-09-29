@@ -38,11 +38,11 @@ class DataController extends Controller
 				->where('site_id=:site_id',array(':site_id'=>$id))
 				->order('counters desc')
 				->group('url_path');
-			/*if(!empty($search))
-				$command->where('')*/
+			if(!empty($search))
+				$command->where("data.data_value LIKE '%:search%'",array(':search'=>$search));
 			$resources = $command->queryAll();
 			$countResources = count($resources);
-			$resources = $command->reset()
+			$command->reset()
 			->select(array(
 				'urls.url_id',
 				'url_path',
@@ -55,7 +55,9 @@ class DataController extends Controller
 			->order('counters desc')
 			->group('url_path')
 			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']))
-			->queryAll();
+			if(!empty($search))
+				$command->where("data.data_value LIKE '%:search%'",array(':search'=>$search));
+			$resources = $command->queryAll();
 			$response = array();
 			unset($columns[0]);
 			foreach($resources as $resource)
