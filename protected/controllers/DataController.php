@@ -39,7 +39,7 @@ class DataController extends Controller
 				->order('counters desc')
 				->group('url_path');
 			if(!empty($search))
-				$command->where("data.data_value LIKE '%:search%'",array(':search'=>$search));
+				$command->where("data.data_value LIKE '%{$search}%'");
 			$resources = $command->queryAll();
 			$countResources = count($resources);
 			$command->reset()
@@ -47,7 +47,7 @@ class DataController extends Controller
 				'urls.url_id',
 				'url_path',
 				'site_id',
-					'(SELECT COUNT(*) FROM data as myData WHERE myData.url_id=urls.url_id AND myData.data_value=\'\') as counters'
+				'(SELECT COUNT(*) FROM data as myData WHERE myData.url_id=urls.url_id AND myData.data_value=\'\') as counters'
 			))
 			->from('urls')
 			->join('data','data.url_id=urls.url_id')
@@ -56,7 +56,7 @@ class DataController extends Controller
 			->group('url_path')
 			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']))
 			if(!empty($search))
-				$command->where("data.data_value LIKE '%:search%'",array(':search'=>$search));
+				$command->where("data.data_value LIKE '%{$search}%'");
 			$resources = $command->queryAll();
 			$response = array();
 			unset($columns[0]);
