@@ -24,30 +24,38 @@ class DataController extends Controller
 		$data['columns'] = $columns;
 		if(Yii::app()->request->isAjaxRequest)
 		{
+			$search = $_GET['sSearch'];
 			$command->reset();
-			$resources = $command
+			$command
 				->select(array(
 					'urls.url_id',
 					'url_path',
 					'site_id',
+					'(SELECT COUNT(*) FROM data as myData WHERE myData.url_id=urls.url_id AND myData.data_value=\'\') as counters'
 				))
 				->from('urls')
 				->join('data','data.url_id=urls.url_id')
 				->where('site_id=:site_id',array(':site_id'=>$id))
-				->group('url_path')
-				->queryAll();
+				->order('counters desc')
+				->group('url_path');
+			/*if(!empty($search))
+				$command->where('')*/
+			$resources = $command->queryAll();
 			$countResources = count($resources);
 			$resources = $command->reset()
 			->select(array(
 				'urls.url_id',
 				'url_path',
 				'site_id',
+					'(SELECT COUNT(*) FROM data as myData WHERE myData.url_id=urls.url_id AND myData.data_value=\'\') as counters'
 			))
 			->from('urls')
 			->join('data','data.url_id=urls.url_id')
 			->where('site_id=:site_id',array(':site_id'=>$id))
+			->order('counters desc')
 			->group('url_path')
-			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']))->queryAll();
+			->limit($_GET['iDisplayLength'], intval($_GET['iDisplayStart']))
+			->queryAll();
 			$response = array();
 			unset($columns[0]);
 			foreach($resources as $resource)
