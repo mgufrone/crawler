@@ -114,6 +114,7 @@ class CrawlController extends Controller
 							if(!empty($matches) && !empty($matches[$pattern['pattern_name']]))
 							foreach($matches[$pattern['pattern_name']] as $match)
 							{
+								print $match;
 								$match = iconv("utf-8", "ascii//TRANSLIT", strip_tags($match));
 								$countFirst = $command->reset()->select('COUNT(*) as count')
 								->from('data')
